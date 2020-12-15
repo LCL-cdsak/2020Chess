@@ -97,9 +97,9 @@ public class inicial : MonoBehaviour {
                         Clean_ValidPath_HintBlocks();
                     }
                     //單人模式 (94-96行註解即可轉為雙人模式)
-                    best_path = algorithm.AI(ref chess.map);
+                    /*best_path = algorithm.AI(ref chess.map);
                     chess.SelectPiece(best_path[0], best_path[1]);                
-                    chess.MovePiece(best_path[2], best_path[3], out is_deselect);
+                    chess.MovePiece(best_path[2], best_path[3], out is_deselect);*/
                     /////** This work now done by MovePieceGameObject() **/////
                     /*temp = GetPictureBoxIndexFromLocation(Position_row, Position_col);
                     // Remove the dead piece
