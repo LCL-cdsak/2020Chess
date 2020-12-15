@@ -44,5 +44,11 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
+
+
 # Crashlytics generated file
 crashlytics-build.properties
+
+Assets/PollyPrivateers
+Assets/Plugins
+Assets/Free Low Poly Chess Set
