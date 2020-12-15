@@ -11,11 +11,14 @@ public class camera_ctrl : MonoBehaviour {
     private float yaw = 0f;
     private float pitch = 0f;
 
+
     void Update()
     {
         //Look around with Right Mouse
         if (Input.GetMouseButton(1))
         {
+            pitch = transform.eulerAngles.x;
+            yaw = transform.eulerAngles.y;
             yaw += lookSpeedH * Input.GetAxis("Mouse X");
             pitch -= lookSpeedV * Input.GetAxis("Mouse Y");
 
