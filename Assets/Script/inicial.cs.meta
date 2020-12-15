@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d1dbaf1cd87bb144d9a33649c174d9de
+timeCreated: 1607252702
+licenseType: Free
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - temp_piece: {instanceID: 0}
+  - HintBlockTransform: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
