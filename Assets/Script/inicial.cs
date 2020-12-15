@@ -10,6 +10,7 @@ public class inicial : MonoBehaviour {
     // Use this for initialization
     ChessAlgorithm algorithm = new ChessAlgorithm();
     public Chess chess;
+    public GameObject debug;
     public GameObject temp_piece;
     public GameObject[] Piece = new GameObject[32];
     public Transform HintBlockTransform;
@@ -19,6 +20,7 @@ public class inicial : MonoBehaviour {
     void Start() {
         chess = new Chess();
         chess.MovePieceEvent += MovePieceGameObject;
+        //debug.transform.localPosition = new Vector3(5f, 0, 0);
         //  Piece = GameObject.FindGameObjectsWithTag("piece");
 
         /*
@@ -30,10 +32,10 @@ public class inicial : MonoBehaviour {
         for(int i=0; i<8; ++i)
         {
             for(int k=0; k<8; ++k)
-            {
+            { 
                 HintBlocks[i, k] = Instantiate(HintBlockTransform);
                 HintBlocks[i, k].SetParent(board.transform);
-                HintBlocks[i, k].position = new Vector3(i, 0, k);
+                HintBlocks[i, k].localPosition = new Vector3(i, 0, k);
                 HintBlocks[i, k].GetComponent<Renderer>().material.color = new Color(0, 1, 0, 0.3f);
                 HintBlocks[i, k].GetComponent<Renderer>().material.shader = Shader.Find("Transparent/Diffuse");
                 HintBlocks[i, k].GetComponent<Renderer>().enabled = false;
@@ -55,8 +57,12 @@ public class inicial : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                Position_row =Convert.ToInt32(Math.Round(hit.point.x, 0, MidpointRounding.AwayFromZero)) ;
-                Position_col = Convert.ToInt32(Math.Round(hit.point.z, 0, MidpointRounding.AwayFromZero));
+              //  Debug.Log(hit.point.x);
+               // Debug.Log(hit.point.z);
+                Position_row =Convert.ToInt32(Math.Round(hit.point.x*10, 0, MidpointRounding.AwayFromZero)) ;
+                Position_col = Convert.ToInt32(Math.Round(hit.point.z*10, 0, MidpointRounding.AwayFromZero));
+                Debug.Log(Position_row);
+             //   Debug.Log()
                 // print(Math.Round(Position_row, 0, MidpointRounding.AwayFromZero));
                 if (chess.is_selected_piece)
                 {
@@ -166,8 +172,8 @@ public class inicial : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                int Position_row_up = Convert.ToInt32(Math.Round(hit.point.x, 0, MidpointRounding.AwayFromZero));
-                int Position_col_up = Convert.ToInt32(Math.Round(hit.point.z, 0, MidpointRounding.AwayFromZero));
+                int Position_row_up = Convert.ToInt32(Math.Round(hit.point.x*10, 0, MidpointRounding.AwayFromZero));
+                int Position_col_up = Convert.ToInt32(Math.Round(hit.point.z*10, 0, MidpointRounding.AwayFromZero));
                 if (Position_row == Position_row_up && Position_col == Position_col_up)
                 {
                     // Player click the piece, no drag
@@ -196,8 +202,8 @@ public class inicial : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                int Position_row_up = Convert.ToInt32(Math.Round(hit.point.x, 0, MidpointRounding.AwayFromZero));
-                int Position_col_up = Convert.ToInt32(Math.Round(hit.point.z, 0, MidpointRounding.AwayFromZero));
+                int Position_row_up = Convert.ToInt32(Math.Round(hit.point.x*10, 0, MidpointRounding.AwayFromZero));
+                int Position_col_up = Convert.ToInt32(Math.Round(hit.point.z*10, 0, MidpointRounding.AwayFromZero));
 
                 if (chess.is_selected_piece)
                 {
@@ -229,9 +235,9 @@ public class inicial : MonoBehaviour {
         Debug.Log(GetPictureBoxIndexFromLocation(new_row, new_col));
         if (dead_piece_index != -1)
         {
-            Piece[dead_piece_index].transform.position = new Vector3(100, 100, 100);
+            Piece[dead_piece_index].transform.localPosition = new Vector3(100, 100, 100);
         }
-        to_move_piece.transform.position = new Vector3(new_row, 0, new_col);
+        to_move_piece.transform.localPosition = new Vector3(new_row, 0, new_col);
         if (to_move_piece.tag == "white")
         {
             to_move_piece.transform.GetComponent<MeshRenderer>().material.color = new Color(0.8f, 0.8f, 0.8f, 0.8f);
