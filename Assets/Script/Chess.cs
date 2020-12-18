@@ -487,6 +487,8 @@ namespace Assets.Script
                     // white/long
                     map[7, 2] = map[7, 4];
                     map[7, 3] = map[7, 0];
+                    map[7, 4] = null;
+                    map[7, 0] = null;
                     MovePieceEvent(7, 4, 7, 2);
                     MovePieceEvent(7, 0, 7, 3);
                 }
@@ -495,6 +497,8 @@ namespace Assets.Script
                     // white/short
                     map[7, 6] = map[7, 4];
                     map[7, 5] = map[7, 7];
+                    map[7, 4] = null;
+                    map[7, 7] = null;
                     MovePieceEvent(7, 4, 7, 6);
                     MovePieceEvent(7, 7, 7, 5);
                 }
@@ -508,6 +512,8 @@ namespace Assets.Script
                     // black/long
                     map[0, 2] = map[0, 4];
                     map[0, 3] = map[0, 0];
+                    map[0, 4] = null;
+                    map[0, 0] = null;
                     MovePieceEvent(0, 4, 0, 2);
                     MovePieceEvent(0, 0, 0, 3);
                 }
@@ -516,6 +522,8 @@ namespace Assets.Script
                     // black/short
                     map[0, 6] = map[0, 4];
                     map[0, 5] = map[0, 7];
+                    map[0, 4] = null;
+                    map[0, 7] = null;
                     MovePieceEvent(0, 4, 0, 6);
                     MovePieceEvent(0, 7, 0, 5);
                 }
