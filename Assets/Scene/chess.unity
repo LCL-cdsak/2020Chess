@@ -1429,6 +1429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1dbaf1cd87bb144d9a33649c174d9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: {fileID: 0}
   temp_piece: {fileID: 0}
   Piece:
   - {fileID: 1699833066}
@@ -1463,7 +1464,7 @@ MonoBehaviour:
   - {fileID: 1580076593}
   - {fileID: 935502638}
   - {fileID: 1515030209}
-  HintBlockTransform: {fileID: 4406952922615602, guid: c0e686fd7040fbf4b9334b9d4bd781de,
+  HintBlockTransform: {fileID: 4461324181512934, guid: 19670b4d617a1da4293f3adfd9dfc3e4,
     type: 2}
   is_mouse_dragging: 1
   temp: 0
