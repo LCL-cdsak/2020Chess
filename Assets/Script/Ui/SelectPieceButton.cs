@@ -22,7 +22,7 @@ public class SelectPieceButton : MonoBehaviour {
 
     public void ClickTest()
     {
-        Debug.Log("btn test");
+        Debug.Log(type.ToString() + " btn clicked");
     }
 	
 	// Update is called once per frame

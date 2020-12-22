@@ -2132,7 +2132,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Rook
 --- !u!222 &391404874
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2806,7 +2806,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Knight
 --- !u!222 &483335579
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5249,7 +5249,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Queen
 --- !u!222 &838831249
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9215,7 +9215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ebc84da09a9cc439b844475c362391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 81
+  type: 72
   btn: {fileID: 0}
 --- !u!114 &1383463599
 MonoBehaviour:
@@ -9856,7 +9856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ebc84da09a9cc439b844475c362391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 81
+  type: 66
   btn: {fileID: 0}
 --- !u!114 &1430205255
 MonoBehaviour:
@@ -11428,7 +11428,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Bishop
 --- !u!222 &1744714691
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12198,7 +12198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ebc84da09a9cc439b844475c362391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 81
+  type: 82
   btn: {fileID: 0}
 --- !u!114 &1850443551
 MonoBehaviour:
