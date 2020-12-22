@@ -6,7 +6,7 @@ using System.Reflection;
 using Assets.Script;
 
 public class inicial : MonoBehaviour {
-
+    public int mode;
     // Use this for initialization
     ChessAlgorithm algorithm = new ChessAlgorithm();
     public Chess chess;
@@ -20,6 +20,7 @@ public class inicial : MonoBehaviour {
     void Start() {
         chess = new Chess();
         chess.MovePieceEvent += MovePieceGameObject;
+        
         //debug.transform.localPosition = new Vector3(5f, 0, 0);
         //  Piece = GameObject.FindGameObjectsWithTag("piece");
 
@@ -49,7 +50,7 @@ public class inicial : MonoBehaviour {
     private bool is_deselect=true;
     public bool is_mouse_dragging = false;
     void Update() {
-
+        mode = Mode_Select.Mode;
         if (Input.GetMouseButtonDown(0))
         {
             is_mouse_dragging = true;
@@ -96,7 +97,8 @@ public class inicial : MonoBehaviour {
                         // Piece Moved
                         Clean_ValidPath_HintBlocks();
                     }
-                    //單人模式 (94-96行註解即可轉為雙人模式)
+                    Change_mode(mode);
+                    //單人模式 (100-102行註解即可轉為雙人模式)
                     /*best_path = algorithm.AI(ref chess.map);
                     chess.SelectPiece(best_path[0], best_path[1]);                
                     chess.MovePiece(best_path[2], best_path[3], out is_deselect);*/
@@ -223,6 +225,15 @@ public class inicial : MonoBehaviour {
 
         }
 
+    }
+    public void Change_mode(int m)
+    {
+        if (m==1)
+        {
+            best_path = algorithm.AI(ref chess.map);
+            chess.SelectPiece(best_path[0], best_path[1]);
+            chess.MovePiece(best_path[2], best_path[3], out is_deselect);
+        }
     }
     public void MovePieceGameObject(int row, int col, int new_row, int new_col)
     {
