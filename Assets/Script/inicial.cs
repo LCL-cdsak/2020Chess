@@ -5,19 +5,24 @@ using System;
 using System.Reflection;
 using Assets.Script;
 
-public class inicial : MonoBehaviour {
+public class inicial : MonoBehaviour
+{
 
     // Use this for initialization
-    ChessAlgorithm algorithm = new ChessAlgorithm();
+
+    public int level = 1;
     public Chess chess;
     public GameObject debug;
     public GameObject temp_piece;
     public GameObject[] Piece = new GameObject[32];
     public Transform HintBlockTransform;
     public Transform[,] HintBlocks = new Transform[8, 8];
+    ChessAlgorithm algorithm;
     int[] best_path = new int[4];//[0] is fromx,[1] is fromy,[2] is tox,[3] is toy
 
-    void Start() {
+    void Start()
+    {
+        algorithm = new ChessAlgorithm(level);
         chess = new Chess();
         chess.MovePieceEvent += MovePieceGameObject;
         //debug.transform.localPosition = new Vector3(5f, 0, 0);
@@ -29,10 +34,10 @@ public class inicial : MonoBehaviour {
             //Console.WriteLine();
         */
         GameObject board = GameObject.Find("Board");
-        for(int i=0; i<8; ++i)
+        for (int i = 0; i < 8; ++i)
         {
-            for(int k=0; k<8; ++k)
-            { 
+            for (int k = 0; k < 8; ++k)
+            {
                 HintBlocks[i, k] = Instantiate(HintBlockTransform);
                 HintBlocks[i, k].SetParent(board.transform);
                 HintBlocks[i, k].localPosition = new Vector3(i, 0, k);
@@ -46,9 +51,10 @@ public class inicial : MonoBehaviour {
 
     int Position_row;
     int Position_col;
-    private bool is_deselect=true;
+    private bool is_deselect = true;
     public bool is_mouse_dragging = false;
-    void Update() {
+    void Update()
+    {
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -57,12 +63,12 @@ public class inicial : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-              //  Debug.Log(hit.point.x);
-               // Debug.Log(hit.point.z);
-                Position_row =Convert.ToInt32(Math.Round(hit.point.x*10, 0, MidpointRounding.AwayFromZero)) ;
-                Position_col = Convert.ToInt32(Math.Round(hit.point.z*10, 0, MidpointRounding.AwayFromZero));
+                //  Debug.Log(hit.point.x);
+                // Debug.Log(hit.point.z);
+                Position_row = Convert.ToInt32(Math.Round(hit.point.x * 10, 0, MidpointRounding.AwayFromZero));
+                Position_col = Convert.ToInt32(Math.Round(hit.point.z * 10, 0, MidpointRounding.AwayFromZero));
                 Debug.Log(Position_row);
-             //   Debug.Log()
+                //   Debug.Log()
                 // print(Math.Round(Position_row, 0, MidpointRounding.AwayFromZero));
                 if (chess.is_selected_piece)
                 {
@@ -85,7 +91,7 @@ public class inicial : MonoBehaviour {
                                 Debug.Log("Deselect black");
                                 hit.collider.gameObject.transform.GetComponent<MeshRenderer>().material.color = new Color(0, 0, 0, 0);
                             }
-                            
+
                             //piece.BackColor = Color.Transparent;
                             return;
                         }
@@ -107,7 +113,6 @@ public class inicial : MonoBehaviour {
                     {
                         Piece[temp].transform.position = new Vector3(100, 100, 100);
                     }*/
-
                     /*Vector3 temp1 = temp_piece.transform.position;
                     temp1.x = Position_row;
                     temp1.z = Position_col;
@@ -148,7 +153,7 @@ public class inicial : MonoBehaviour {
                     temp_piece.transform.position = temp2;*/
 
                 }
-                else if(hit.transform.IsChildOf(GameObject.Find("Pieces").transform))
+                else if (hit.transform.IsChildOf(GameObject.Find("Pieces").transform))
                 {
                     // select the piece if player valid
                     if (chess.SelectPiece(Position_row, Position_col))
@@ -172,8 +177,8 @@ public class inicial : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                int Position_row_up = Convert.ToInt32(Math.Round(hit.point.x*10, 0, MidpointRounding.AwayFromZero));
-                int Position_col_up = Convert.ToInt32(Math.Round(hit.point.z*10, 0, MidpointRounding.AwayFromZero));
+                int Position_row_up = Convert.ToInt32(Math.Round(hit.point.x * 10, 0, MidpointRounding.AwayFromZero));
+                int Position_col_up = Convert.ToInt32(Math.Round(hit.point.z * 10, 0, MidpointRounding.AwayFromZero));
                 if (Position_row == Position_row_up && Position_col == Position_col_up)
                 {
                     // Player click the piece, no drag
@@ -187,9 +192,9 @@ public class inicial : MonoBehaviour {
                     {
                         // chess Success move, move the gameobject
 
-                       /*********************************************************************************
-                        MovePieceGameObject(Position_row, Position_col, Position_row_up, Position_col_up);
-                       /*********************************************************************************/
+                        /*********************************************************************************
+                         MovePieceGameObject(Position_row, Position_col, Position_row_up, Position_col_up);
+                        /*********************************************************************************/
                     }
                 }
             }
@@ -202,8 +207,8 @@ public class inicial : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                int Position_row_up = Convert.ToInt32(Math.Round(hit.point.x*10, 0, MidpointRounding.AwayFromZero));
-                int Position_col_up = Convert.ToInt32(Math.Round(hit.point.z*10, 0, MidpointRounding.AwayFromZero));
+                int Position_row_up = Convert.ToInt32(Math.Round(hit.point.x * 10, 0, MidpointRounding.AwayFromZero));
+                int Position_col_up = Convert.ToInt32(Math.Round(hit.point.z * 10, 0, MidpointRounding.AwayFromZero));
 
                 if (chess.is_selected_piece)
                 {
@@ -249,9 +254,9 @@ public class inicial : MonoBehaviour {
     }
     public void Display_ValidPath_HintBlocks(bool[,] bool_map)
     {
-        for(int i=0; i<8; ++i)
+        for (int i = 0; i < 8; ++i)
         {
-            for(int k=0; k<8; ++k)
+            for (int k = 0; k < 8; ++k)
             {
                 HintBlocks[i, k].GetComponent<Renderer>().enabled = bool_map[i, k];
             }
