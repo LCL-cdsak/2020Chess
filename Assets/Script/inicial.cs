@@ -22,6 +22,7 @@ public class inicial : MonoBehaviour {
         algorithm = new ChessAlgorithm();
         chess = new Chess();
         chess.MovePieceEvent += MovePieceGameObject;
+        chess.RemovePieceEvent += RemovePieceGameObject;
         
         //debug.transform.localPosition = new Vector3(5f, 0, 0);
         //  Piece = GameObject.FindGameObjectsWithTag("piece");
@@ -258,6 +259,15 @@ public class inicial : MonoBehaviour {
         else if (to_move_piece.tag == "black")
         {
             to_move_piece.transform.GetComponent<MeshRenderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 0.2f);
+        }
+    }
+
+    public void RemovePieceGameObject(int row, int col)
+    {
+        int index = GetPictureBoxIndexFromLocation(row, col);
+        if (Piece[index] != null)
+        {
+            Piece[index].transform.localPosition = new Vector3(100, 100, 100);
         }
     }
     public void Display_ValidPath_HintBlocks(bool[,] bool_map)

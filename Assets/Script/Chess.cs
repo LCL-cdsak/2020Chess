@@ -38,10 +38,12 @@ namespace Assets.Script
         public List<Piece> protect_pieces = new List<Piece>();
 
         public delegate void MovePieceDelegate(int row, int col, int new_row, int new_col);
+        public delegate void RemovePieceDelegate(int row, int col);
         public delegate void CheckKing(int row, int col, bool[,] thread_path);
         public delegate void KingCantMove(int row, int col);
 
         public MovePieceDelegate MovePieceEvent;
+        public RemovePieceDelegate RemovePieceEvent;
 
         //Dictionary<Piece, bool[,]> check_king_pieces = new Dictionary<Piece, bool[,]>(); // 儲存"非長直線"_"直接"_威脅國王之piece極其威脅路徑(Pawn, Knight, King)。
         //Dictionary<Piece, bool[,]> path_check_king_pieces = new Dictionary<Piece, bool[,]>(); // 儲存"長直線"_"直接"_威脅國王棋之piece及其威脅路徑(所有長直線移動之棋)。
@@ -414,6 +416,10 @@ namespace Assets.Script
                 Debug.Log("Castling");
                 MoveCastling(row, col);
             }
+            else if (IsPawnEnpassant(selected_piece_location[0], selected_piece_location[1], row, col))
+            {
+                MovePawnEnpassant(selected_piece_location[0], selected_piece_location[1], row, col);
+            }
             else
             {
                 Debug.Log("Normal move");
@@ -465,6 +471,23 @@ namespace Assets.Script
                 return true;
             }
             return false;
+        }
+        public void MovePawnEnpassant(int row, int col, int nrow, int ncol)
+        {
+            if(map[row, col].team  == "white")
+            {
+                RemovePiece(nrow + 1, ncol);
+                map[nrow, ncol] = map[row, col];
+                map[row, col] = null;
+                MovePieceEvent(row, col, nrow, ncol);
+            }
+            else
+            {
+                RemovePiece(nrow - 1, ncol);
+                map[nrow, ncol] = map[row, col];
+                map[row, col] = null;
+                MovePieceEvent(row, col, nrow, ncol);
+            }
         }
         public void AddPawnEnpassantPath()
         {
