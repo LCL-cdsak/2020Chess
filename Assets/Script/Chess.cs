@@ -22,6 +22,7 @@ namespace Assets.Script
         public Piece[,] map = new Piece[8, 8];
         public Dictionary<string, int[]> king_piece_locations = new Dictionary<string, int[]>();
         public Dictionary<string, Piece> king_pieces = new Dictionary<string, Piece>();
+        public Stack<Step> steps = new Stack<Step>();
         public Piece protect_piece = null;
         public bool map_NotNull = false;
         // game status
@@ -249,7 +250,8 @@ namespace Assets.Script
                     }
                 }
             }
-            
+            AddPawnEnpassantPath();
+
             // Console.WriteLine($"Protect_pieces count = {protect_pieces.Count()}");
             for (int i = 0; i < protect_pieces.Count(); ++i)
             {
@@ -394,6 +396,7 @@ namespace Assets.Script
                 return false;
             }
             // valid path, move the piece and reset is_selected_piece
+            RecordStep(selected_piece_location[0], selected_piece_location[1], row, col);
             is_selected_piece = false;
             if (map[row, col] != null)
             {
@@ -448,6 +451,65 @@ namespace Assets.Script
             current_team = (current_team == "white") ? "black" : "white";
             RoundInitialize();
             return true;
+        }
+        public void RecordStep(int row, int col, int nrow, int ncol)
+        {
+            steps.Push(new Step(row, col, nrow, ncol, map));
+            
+        }
+        public bool IsPawnEnpassant(int row, int col, int nrow, int ncol)
+        {
+            // if pawn is killing but the destination is null, it's a En passant.
+            if(col != ncol && map[nrow, ncol] == null)
+            {
+                return true;
+            }
+            return false;
+        }
+        public void AddPawnEnpassantPath()
+        {
+            if(steps.Count() == 0)
+            {
+                return;
+            }
+            Step step = steps.Peek();
+            
+            if (step == null){
+                return;
+            }
+            Piece.PieceType type = step.type;
+    
+            if(type == Piece.PieceType.Pawn)
+            {
+                if(step.team == "white")
+                {
+                    if(step.row - step.nrow > 1)
+                    {
+                        if(step.ncol -1 >= 0)
+                        {
+                            if(map[step.nrow, step.ncol - 1] != null)
+                                if(map[step.nrow, step.ncol - 1].piece_type == Piece.PieceType.Pawn &&
+                                   map[step.nrow, step.ncol - 1].team != "white")
+                                {
+                                    map[step.nrow, step.ncol - 1].valid_path[step.nrow + 1, step.col] = true;
+                                }
+                        }
+                        if (step.ncol + 1 < 8)
+                        {
+                            if (map[step.nrow, step.ncol + 1] != null)
+                                if (map[step.nrow, step.ncol + 1].piece_type == Piece.PieceType.Pawn &&
+                                   map[step.nrow, step.ncol + 1].team != "white")
+                                {
+                                    map[step.nrow, step.ncol + 1].valid_path[step.nrow + 1, step.col] = true;
+                                }
+                        }
+                    }
+                }
+                else
+                {
+
+                }
+            }
         }
         public bool IsCastling(int row, int col, int nrow, int ncol)
         {
