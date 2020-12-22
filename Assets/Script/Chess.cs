@@ -91,7 +91,6 @@ namespace Assets.Script
         public void RoundInitialize()
         {
 
-
             UpdateValidPath(); // main process
         }
 
