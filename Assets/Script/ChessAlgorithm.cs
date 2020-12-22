@@ -9,6 +9,7 @@ namespace Assets.Script
     class ChessAlgorithm
     {
         public int fromx, fromy, tox, toy;
+        public static int level;
         public Chess chess;
         /*
          * score:
@@ -69,6 +70,7 @@ namespace Assets.Script
                                                                {10, 10,  20,  30,  30,  20, 10, 10},
                                                                {50, 50,  50,  50,  50,  50, 50, 50},
                                                                { 0,  0,   0,   0,   0,   0,  0, 0 }};
+
         public int minmax_first(ref Piece[,] current, int layer, int max_layer, ref int fromx, ref int fromy, ref int tox, ref int toy)//current is map status，return point of a match
         {
             int highest_score_of_a_match = int.MinValue;
@@ -323,7 +325,7 @@ namespace Assets.Script
             fromy = 0;
             tox = 0;
             toy = 0;
-            minmax(0, "black", ref map, 2, 2, int.MinValue, int.MaxValue);
+            minmax(0, "black", ref map, level, level, int.MinValue, int.MaxValue);
             //bool is_deselect;
             //chess.is_selected_piece = false;
             //chess.SelectPiece(fromx, fromy);
