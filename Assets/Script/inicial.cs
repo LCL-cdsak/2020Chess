@@ -15,9 +15,12 @@ public class inicial : MonoBehaviour {
     public GameObject[] PieceTypePrefabs = new GameObject[8];
     public Transform HintBlockTransform;
     public Transform[,] HintBlocks = new Transform[8, 8];
+    public Vector3[] InitPieceLocations = new Vector3[32];
     ChessAlgorithm algorithm;
     int[] best_path = new int[4];//[0] is fromx,[1] is fromy,[2] is tox,[3] is toy
 
+    public GameObject SelectPieceTypeUI;
+    public bool is_selecting_piece_type = false; // this is the flag for waiting user to select the new pawn type.
     void Start()
     {
         algorithm = new ChessAlgorithm();
@@ -46,7 +49,28 @@ public class inicial : MonoBehaviour {
                 HintBlocks[i, k].GetComponent<Renderer>().enabled = false;
             }
         }
+        for(int i=0; i<32; ++i)
+        {
+            InitPieceLocations[i] = Pieces[i].transform.localPosition;
+        }
         ChangePieceType(1, 0, "white", Piece.PieceType.Queen);
+    }
+    public void ShowCloseSelectPieceUI()
+    {
+        SelectPieceTypeUI.SetActive(true);
+    }
+    public void CloseSelectPieceUI()
+    {
+        SelectPieceTypeUI.SetActive(false);
+    }
+
+    void ResetGame()
+    {
+        is_selecting_piece_type = false;
+        for(int i=0; i<32; ++i)
+        {
+            Pieces[i].transform.localPosition = InitPieceLocations[i];
+        }
     }
     // Update is called once per frame
 
@@ -55,6 +79,10 @@ public class inicial : MonoBehaviour {
     private bool is_deselect = true;
     public bool is_mouse_dragging = false;
     void Update() {
+        if (is_selecting_piece_type)
+        {
+            return;
+        }
         mode = Mode_Select.Mode;
         ChessAlgorithm.level = Mode_Select.Level;
         if (Input.GetMouseButtonDown(0))
@@ -324,6 +352,13 @@ public class inicial : MonoBehaviour {
         Destroy(old_obj);
         //Pieces[GetPictureBoxIndexFromLocation(row, col)].transform.lossyScale = old_obj.transform.lossyScale;
         //Pieces[GetPictureBoxIndexFromLocation(row, col)].transform.SetParent(GameObject.Find("board").transform);
+
+    }
+    public void OnSelectPieceTypeUIClicked(Piece.PieceType type)
+    {
+        int row = chess.selected_piece_location[0], col = chess.selected_piece_location[1];
+        ChangePieceType(row, col, chess.map[row, col].team, type);
+        chess.MovePawnToBottom(row, col, Position_row, Position_col);
 
     }
     public int temp;

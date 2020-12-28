@@ -10,6 +10,8 @@ public class SelectPieceButton : MonoBehaviour {
     public PieceButtonClickedDelegate PieceButtonClickedEvent;
     public Piece.PieceType type;
     public Button btn;
+    public GameObject board;
+    public inicial inic;
 	// Use this for initialization
 	void Start () {
         btn = GetComponent<Button>();
@@ -18,6 +20,8 @@ public class SelectPieceButton : MonoBehaviour {
             Debug.Log("No btn in components");
         }
         btn.onClick.AddListener(ClickTest);
+        board = GameObject.Find("Board");
+        inic = board.GetComponent<inicial>();
 	}
 
     public void ClickTest()
@@ -28,7 +32,14 @@ public class SelectPieceButton : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (inic.is_selecting_piece_type)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                inic.is_selecting_piece_type = false;
+                inic.CloseSelectPieceUI();
+            }
+        }
 	}
 
 }

@@ -39,11 +39,16 @@ namespace Assets.Script
 
         public delegate void MovePieceDelegate(int row, int col, int new_row, int new_col);
         public delegate void RemovePieceDelegate(int row, int col);
+        public delegate void StartWatingSelectPieceType();
         public delegate void CheckKing(int row, int col, bool[,] thread_path);
         public delegate void KingCantMove(int row, int col);
 
         public MovePieceDelegate MovePieceEvent;
         public RemovePieceDelegate RemovePieceEvent;
+        public StartWatingSelectPieceType StartWatingSelectPieceTypeEvent;
+
+        public bool is_pawn_change_type_selected = false;
+        public Piece.PieceType selected_pawn_change_type;
 
         //Dictionary<Piece, bool[,]> check_king_pieces = new Dictionary<Piece, bool[,]>(); // 儲存"非長直線"_"直接"_威脅國王之piece極其威脅路徑(Pawn, Knight, King)。
         //Dictionary<Piece, bool[,]> path_check_king_pieces = new Dictionary<Piece, bool[,]>(); // 儲存"長直線"_"直接"_威脅國王棋之piece及其威脅路徑(所有長直線移動之棋)。
@@ -385,6 +390,7 @@ namespace Assets.Script
                 // no piece selected
                 return false;
             }
+            // From here, Check path
             if (ValidPath(selected_piece_location[0], selected_piece_location[1]) == null)
             {
               //  MessageBox.Show("King Check", "NO", MessageBoxButtons.OK);
@@ -398,6 +404,22 @@ namespace Assets.Script
                 // not a valid path
                 return false;
             }
+            if(IsPawnReachBottom(selected_piece_location[0], selected_piece_location[1], row, col))
+            {
+                if (!is_pawn_change_type_selected)
+                {
+                    // wait for player select piece.
+                    return false;
+                }
+                else
+                {
+                    is_pawn_change_type_selected = false;
+                    ChangePieceType(selected_piece_location[0], selected_piece_location[1], selected_pawn_change_type);
+                    MovePawnToBottom(selected_piece_location[0], selected_piece_location[1], row, col);
+                }
+                
+            }
+
             // valid path, move the piece and reset is_selected_piece
             RecordStep(selected_piece_location[0], selected_piece_location[1], row, col);
             is_selected_piece = false;
@@ -709,6 +731,29 @@ namespace Assets.Script
                 }
             }
             return is_king_cant_move;
+        }
+        public void MovePawnToBottom(int row, int col, int nrow, int ncol)
+        {
+            // This function is force direct move
+            // need two position in case that pawn kill enemy.
+            RemovePiece(nrow, ncol);
+            map[nrow, ncol] = map[row, col];
+            map[row, col] = null;
+            MovePieceEvent(row, col, nrow, ncol);
+        }
+        public bool IsPawnReachBottom(int row, int col, int nrow, int ncol)
+        {
+            if (map[row, col] == null)
+                return false;
+            if (map[row, col].team == "white")
+            {
+                if (nrow == 0)
+                    return true;
+                return false;
+            }
+            else if (nrow == 7)
+                return true;
+            return false;
         }
         public void ChangePieceType(int row, int col, Piece.PieceType type)
         {
