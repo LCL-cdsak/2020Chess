@@ -441,6 +441,7 @@ namespace Assets.Script
             }
             else if (IsPawnEnpassant(selected_piece_location[0], selected_piece_location[1], row, col))
             {
+                Debug.Log("Enpassanting");
                 MovePawnEnpassant(selected_piece_location[0], selected_piece_location[1], row, col);
             }
             else
@@ -489,6 +490,8 @@ namespace Assets.Script
         public bool IsPawnEnpassant(int row, int col, int nrow, int ncol)
         {
             // if pawn is killing but the destination is null, it's a En passant.
+            if (map[row, col].piece_type != Piece.PieceType.Pawn)
+                return false;
             if(col != ncol && map[nrow, ncol] == null)
             {
                 return true;
@@ -553,7 +556,27 @@ namespace Assets.Script
                 }
                 else
                 {
-
+                    if (step.nrow - step.row > 1)
+                    {
+                        if (step.ncol - 1 >= 0)
+                        {
+                            if (map[step.nrow, step.ncol - 1] != null)
+                                if (map[step.nrow, step.ncol - 1].piece_type == Piece.PieceType.Pawn &&
+                                   map[step.nrow, step.ncol - 1].team != "black")
+                                {
+                                    map[step.nrow, step.ncol - 1].valid_path[step.nrow - 1, step.col] = true;
+                                }
+                        }
+                        if (step.ncol + 1 < 8)
+                        {
+                            if (map[step.nrow, step.ncol + 1] != null)
+                                if (map[step.nrow, step.ncol + 1].piece_type == Piece.PieceType.Pawn &&
+                                   map[step.nrow, step.ncol + 1].team != "black")
+                                {
+                                    map[step.nrow, step.ncol + 1].valid_path[step.nrow - 1, step.col] = true;
+                                }
+                        }
+                    }
                 }
             }
         }
@@ -744,6 +767,8 @@ namespace Assets.Script
         public bool IsPawnReachBottom(int row, int col, int nrow, int ncol)
         {
             if (map[row, col] == null)
+                return false;
+            if (map[row, col].piece_type != Piece.PieceType.Pawn)
                 return false;
             if (map[row, col].team == "white")
             {

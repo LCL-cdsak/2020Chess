@@ -54,6 +54,7 @@ public class inicial : MonoBehaviour {
             InitPieceLocations[i] = Pieces[i].transform.localPosition;
         }
         ChangePieceType(1, 0, "white", Piece.PieceType.Queen);
+        CloseSelectPieceUI();
     }
     public void ShowCloseSelectPieceUI()
     {
@@ -71,6 +72,7 @@ public class inicial : MonoBehaviour {
         {
             Pieces[i].transform.localPosition = InitPieceLocations[i];
         }
+        CloseSelectPieceUI();
     }
     // Update is called once per frame
 
@@ -101,6 +103,13 @@ public class inicial : MonoBehaviour {
                 // print(Math.Round(Position_row, 0, MidpointRounding.AwayFromZero));
                 if (chess.is_selected_piece)
                 {
+                    if(chess.IsPawnReachBottom(chess.selected_piece_location[0], chess.selected_piece_location[1],
+                                               Position_row, Position_col))
+                    {
+                        // Start Waiting
+                        is_selecting_piece_type = true;
+                        ShowCloseSelectPieceUI();
+                    }
                     // move the selected piece if path is valid
                     if (!chess.MovePiece(Position_row, Position_col, out is_deselect))
                     {
@@ -356,6 +365,8 @@ public class inicial : MonoBehaviour {
     }
     public void OnSelectPieceTypeUIClicked(Piece.PieceType type)
     {
+        is_selecting_piece_type = false;
+        CloseSelectPieceUI();
         int row = chess.selected_piece_location[0], col = chess.selected_piece_location[1];
         ChangePieceType(row, col, chess.map[row, col].team, type);
         chess.MovePawnToBottom(row, col, Position_row, Position_col);
