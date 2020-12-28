@@ -304,6 +304,7 @@ public class inicial : MonoBehaviour {
         {
             to_move_piece.transform.GetComponent<MeshRenderer>().material.color = new Color(0.2f, 0.2f, 0.2f, 0.2f);
         }
+        Clean_ValidPath_HintBlocks();
     }
 
     public void RemovePieceGameObject(int row, int col)
@@ -379,7 +380,7 @@ public class inicial : MonoBehaviour {
         ChangePieceType(row, col, chess.map[row, col].team, type);
         chess.ChangePieceType(row, col, type);
         chess.MovePawnToBottom(row, col, Position_row, Position_col);
-
+        Clean_ValidPath_HintBlocks();
     }
     public int temp;
     public int GetPictureBoxIndexFromLocation(int row, int col)
