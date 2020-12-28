@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Assets.Script;
 
 public class SelectPieceButton : MonoBehaviour {
-    public delegate void PieceButtonClickedDelegate();
+    public delegate void PieceButtonClickedDelegate(Piece.PieceType type);
     public PieceButtonClickedDelegate PieceButtonClickedEvent;
     public Piece.PieceType type;
     public Button btn;
@@ -23,6 +23,7 @@ public class SelectPieceButton : MonoBehaviour {
     public void ClickTest()
     {
         Debug.Log(type.ToString() + " btn clicked");
+        PieceButtonClickedEvent(type);
     }
 	
 	// Update is called once per frame

@@ -391,6 +391,7 @@ namespace Assets.Script
                 // not a valid path
                 return false;
             }
+            Debug.Log("dE = " + row.ToString() + " " + col.ToString()); 
             if (!ValidPath(selected_piece_location[0], selected_piece_location[1])[row, col])
             {
                // MessageBox.Show("NO", "NO", MessageBoxButtons.OK);
@@ -665,6 +666,7 @@ namespace Assets.Script
         {
             // Add stuff need to be clean here
             map[row, col] = null;
+            RemovePieceEvent(row, col);
         }
         public static bool AndChessBoolMap(bool[,] a, bool[,] b)
         // The return value is true when at least one a&&b == true.
@@ -707,6 +709,10 @@ namespace Assets.Script
                 }
             }
             return is_king_cant_move;
+        }
+        public void ChangePieceType(int row, int col, Piece.PieceType type)
+        {
+            map[row, col].piece_type = type;
         }
     }
 }

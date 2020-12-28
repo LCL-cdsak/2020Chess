@@ -11,7 +11,8 @@ public class inicial : MonoBehaviour {
     public Chess chess;
     public GameObject debug;
     public GameObject temp_piece;
-    public GameObject[] Piece = new GameObject[32];
+    public GameObject[] Pieces = new GameObject[32];
+    public GameObject[] PieceTypePrefabs = new GameObject[8];
     public Transform HintBlockTransform;
     public Transform[,] HintBlocks = new Transform[8, 8];
     ChessAlgorithm algorithm;
@@ -45,6 +46,7 @@ public class inicial : MonoBehaviour {
                 HintBlocks[i, k].GetComponent<Renderer>().enabled = false;
             }
         }
+        ChangePieceType(1, 0, "white", Piece.PieceType.Queen);
     }
     // Update is called once per frame
 
@@ -160,7 +162,7 @@ public class inicial : MonoBehaviour {
                     {
                         //Console.WriteLine("ssss");
 
-                        temp_piece = Piece[GetPictureBoxIndexFromLocation(Position_row, Position_col)];
+                        temp_piece = Pieces[GetPictureBoxIndexFromLocation(Position_row, Position_col)];
                         hit.collider.gameObject.transform.GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0.085f, 1);
                         Display_ValidPath_HintBlocks(chess.map[Position_row, Position_col].valid_path);
                         // piece.BackColor = Color.LightBlue;
@@ -243,13 +245,13 @@ public class inicial : MonoBehaviour {
         // This function can be bind to chess, then all move will be synchronize with chess.
         Debug.Log("Move " + row.ToString() + " " + col.ToString() + " to " + new_row.ToString() + " " + new_col.ToString());
 
-        GameObject to_move_piece = Piece[GetPictureBoxIndexFromLocation(row, col)];
+        GameObject to_move_piece = Pieces[GetPictureBoxIndexFromLocation(row, col)];
         int dead_piece_index = GetPictureBoxIndexFromLocation(new_row, new_col);
         Debug.Log(GetPictureBoxIndexFromLocation(row, col));
         Debug.Log(GetPictureBoxIndexFromLocation(new_row, new_col));
         if (dead_piece_index != -1)
         {
-            Piece[dead_piece_index].transform.localPosition = new Vector3(100, 100, 100);
+            Pieces[dead_piece_index].transform.localPosition = new Vector3(100, 100, 100);
         }
         to_move_piece.transform.localPosition = new Vector3(new_row, 0, new_col);
         if (to_move_piece.tag == "white")
@@ -265,9 +267,11 @@ public class inicial : MonoBehaviour {
     public void RemovePieceGameObject(int row, int col)
     {
         int index = GetPictureBoxIndexFromLocation(row, col);
-        if (Piece[index] != null)
+        if (index == -1)
+            return;
+        if (Pieces[index] != null)
         {
-            Piece[index].transform.localPosition = new Vector3(100, 100, 100);
+            Pieces[index].transform.localPosition = new Vector3(100, 100, 100);
         }
     }
     public void Display_ValidPath_HintBlocks(bool[,] bool_map)
@@ -292,12 +296,42 @@ public class inicial : MonoBehaviour {
             }
         }
     }
+    void ChangePieceType(int row, int col, string team, Piece.PieceType type)
+    {
+        int index = 0;
+        if (team == "black")
+            index += 4;
+        switch (type)
+        {
+            case Piece.PieceType.Queen:
+                break;
+            case Piece.PieceType.Knight:
+                index += 1;
+                break;
+            case Piece.PieceType.Rook:
+                index += 2;
+                break;
+            case Piece.PieceType.Bishop:
+                index += 3;
+                break;
+        }
+        int old_ind = GetPictureBoxIndexFromLocation(row, col);
+        GameObject old_obj = Pieces[old_ind];
+        
+        Pieces[old_ind] = Instantiate(PieceTypePrefabs[index], old_obj.transform.position, 
+                                                                       old_obj.transform.rotation, GameObject.Find("Pieces").transform) as GameObject;
+        Pieces[old_ind] = GameObject.Find(Pieces[old_ind].name);
+        Destroy(old_obj);
+        //Pieces[GetPictureBoxIndexFromLocation(row, col)].transform.lossyScale = old_obj.transform.lossyScale;
+        //Pieces[GetPictureBoxIndexFromLocation(row, col)].transform.SetParent(GameObject.Find("board").transform);
+
+    }
     public int temp;
     public int GetPictureBoxIndexFromLocation(int row, int col)
     {
         for (int i = 0; i < 32; ++i)
         {
-            if (Piece[i].transform.localPosition.x == row && Piece[i].transform.localPosition.z == col)
+            if (Pieces[i].transform.localPosition.x == row && Pieces[i].transform.localPosition.z == col)
             {
                 //Debug.Log(i);
                 //Console.WriteLine(i);
