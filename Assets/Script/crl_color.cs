@@ -24,6 +24,8 @@ public class crl_color : MonoBehaviour {
             if (inicial_object.chess.is_selected_piece)
             {
                 // same team, check if at valid_path == true
+                if (inicial_object.chess.selected_piece.valid_path == null)
+                    return;
                 if (inicial_object.chess.selected_piece.valid_path[(int)transform.position.x, (int)transform.position.z])
                 {
                     PieceLightUp();

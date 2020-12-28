@@ -197,6 +197,8 @@ namespace Assets.Script
         {
             // wrap the Piece.ValidPath, no need for arg "map")
             //return map[row, col].ValidPath(row, col, map);
+            if (map[row, col] == null)
+                return null;
             if (must_move_king)
             {
                 if (map[row, col].piece_type != Piece.PieceType.King)
@@ -416,6 +418,7 @@ namespace Assets.Script
                     is_pawn_change_type_selected = false;
                     ChangePieceType(selected_piece_location[0], selected_piece_location[1], selected_pawn_change_type);
                     MovePawnToBottom(selected_piece_location[0], selected_piece_location[1], row, col);
+                    return false;
                 }
                 
             }
@@ -757,12 +760,16 @@ namespace Assets.Script
         }
         public void MovePawnToBottom(int row, int col, int nrow, int ncol)
         {
-            // This function is force direct move
+            // This function is "FORCE" direct move
             // need two position in case that pawn kill enemy.
+            is_selected_piece = false;
+            is_pawn_change_type_selected = false;
             RemovePiece(nrow, ncol);
             map[nrow, ncol] = map[row, col];
             map[row, col] = null;
             MovePieceEvent(row, col, nrow, ncol);
+            current_team = (current_team == "white") ? "black" : "white";
+            RoundInitialize();
         }
         public bool IsPawnReachBottom(int row, int col, int nrow, int ncol)
         {
@@ -770,10 +777,17 @@ namespace Assets.Script
                 return false;
             if (map[row, col].piece_type != Piece.PieceType.Pawn)
                 return false;
+            if (map[row, col].valid_path == null)
+                return false;
+            if (!map[row, col].valid_path[nrow, ncol])
+                return false;
             if (map[row, col].team == "white")
             {
                 if (nrow == 0)
+                {
+                    Debug.Log("Pawn Reached bottom");
                     return true;
+                }
                 return false;
             }
             else if (nrow == 7)

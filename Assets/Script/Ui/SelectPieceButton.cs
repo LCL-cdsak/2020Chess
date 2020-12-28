@@ -32,12 +32,12 @@ public class SelectPieceButton : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (inic.is_selecting_piece_type)
+        if (Input.GetMouseButtonUp(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (inic.is_selecting_piece_type)
             {
-                inic.is_selecting_piece_type = false;
-                inic.CloseSelectPieceUI();
+                //inic.is_selecting_piece_type = false;
+                //inic.CloseSelectPieceUI();
             }
         }
 	}

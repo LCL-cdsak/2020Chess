@@ -53,7 +53,11 @@ public class inicial : MonoBehaviour {
         {
             InitPieceLocations[i] = Pieces[i].transform.localPosition;
         }
-        ChangePieceType(1, 0, "white", Piece.PieceType.Queen);
+        //ChangePieceType(1, 0, "white", Piece.PieceType.Queen); 
+        foreach(Transform btn in SelectPieceTypeUI.transform)
+        {
+            btn.GetComponent<SelectPieceButton>().PieceButtonClickedEvent += OnSelectPieceTypeUIClicked;
+        }
         CloseSelectPieceUI();
     }
     public void ShowCloseSelectPieceUI()
@@ -98,7 +102,7 @@ public class inicial : MonoBehaviour {
                 // Debug.Log(hit.point.z);
                 Position_row = Convert.ToInt32(Math.Round(hit.point.x * 10, 0, MidpointRounding.AwayFromZero));
                 Position_col = Convert.ToInt32(Math.Round(hit.point.z * 10, 0, MidpointRounding.AwayFromZero));
-                Debug.Log(Position_row);
+                Debug.Log("PositionRow = " + Position_row.ToString());
                 //   Debug.Log()
                 // print(Math.Round(Position_row, 0, MidpointRounding.AwayFromZero));
                 if (chess.is_selected_piece)
@@ -107,6 +111,7 @@ public class inicial : MonoBehaviour {
                                                Position_row, Position_col))
                     {
                         // Start Waiting
+                        Debug.Log("inicial Pawn Reach Bottom");
                         is_selecting_piece_type = true;
                         ShowCloseSelectPieceUI();
                     }
@@ -227,7 +232,7 @@ public class inicial : MonoBehaviour {
                 {
                     // Player drag the piece to a new location
                     bool temp_deselect;// just for the argument
-                    if (chess.MovePiece(Position_row_up, Position_col_up, out temp_deselect))
+                    //if (chess.MovePiece(Position_row_up, Position_col_up, out temp_deselect))
                     {
                         // chess Success move, move the gameobject
 
@@ -365,10 +370,14 @@ public class inicial : MonoBehaviour {
     }
     public void OnSelectPieceTypeUIClicked(Piece.PieceType type)
     {
+        Debug.Log("inicial receive SelectPieceUI, type = " + type.ToString());
         is_selecting_piece_type = false;
         CloseSelectPieceUI();
         int row = chess.selected_piece_location[0], col = chess.selected_piece_location[1];
+        chess.is_pawn_change_type_selected = true;
+        chess.selected_pawn_change_type = type;
         ChangePieceType(row, col, chess.map[row, col].team, type);
+        chess.ChangePieceType(row, col, type);
         chess.MovePawnToBottom(row, col, Position_row, Position_col);
 
     }
