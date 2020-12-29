@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Script;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class RestartButton : MonoBehaviour {
 
@@ -19,7 +21,9 @@ public class RestartButton : MonoBehaviour {
         Debug.Log("Restart Button Clicked");
         if (inic != null)
         {
-            inic.ResetGame();
+            Scene cur_scene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(0);
+            //inic.ResetGame();
             transform.parent.gameObject.SetActive(false);
 
         }
