@@ -44,10 +44,12 @@ namespace Assets.Script
         public delegate void StartWatingSelectPieceType();
         public delegate void CheckKing(int row, int col, bool[,] thread_path);
         public delegate void KingCantMove(int row, int col);
+        public delegate void GameOverDelegate(bool is_draw, string win_team);
 
         public MovePieceDelegate MovePieceEvent;
         public RemovePieceDelegate RemovePieceEvent;
         public StartWatingSelectPieceType StartWatingSelectPieceTypeEvent;
+        public GameOverDelegate GameOverEvent;
 
         public bool is_pawn_change_type_selected = false;
         public Piece.PieceType selected_pawn_change_type;
@@ -83,6 +85,7 @@ namespace Assets.Script
             is_draw = false;
             current_team = "white";
             is_selected_piece = false;
+            map = CreateChessMapFromChar(init_map);
 
             foreach (string team_name in team_names)
             {
@@ -338,6 +341,7 @@ namespace Assets.Script
                         is_gameover = true;
                         is_draw = false;
                         win_team = enemy_team;
+                        GameOverEvent(is_draw, win_team);
                        // MessageBox.Show("Game over");
                     }
                     else
@@ -352,6 +356,7 @@ namespace Assets.Script
                 is_gameover = true;
                 is_draw = true;
                 win_team = null;
+                GameOverEvent(is_draw, win_team);
             }
             return;
         }
