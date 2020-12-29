@@ -21,6 +21,7 @@ public class inicial : MonoBehaviour {
 
     public GameObject SelectPieceTypeUI;
     public bool is_selecting_piece_type = false; // this is the flag for waiting user to select the new pawn type.
+    public int pawn_nrow, pawn_ncol;
     void Start()
     {
         algorithm = new ChessAlgorithm();
@@ -60,7 +61,7 @@ public class inicial : MonoBehaviour {
         }
         CloseSelectPieceUI();
     }
-    public void ShowCloseSelectPieceUI()
+    public void ShowSelectPieceUI()
     {
         SelectPieceTypeUI.SetActive(true);
     }
@@ -113,7 +114,10 @@ public class inicial : MonoBehaviour {
                         // Start Waiting
                         Debug.Log("inicial Pawn Reach Bottom");
                         is_selecting_piece_type = true;
-                        ShowCloseSelectPieceUI();
+                        pawn_nrow = Position_row;
+                        pawn_ncol = Position_col;
+                        ShowSelectPieceUI();
+                        return;
                     }
                     // move the selected piece if path is valid
                     if (!chess.MovePiece(Position_row, Position_col, out is_deselect))
@@ -379,7 +383,7 @@ public class inicial : MonoBehaviour {
         chess.selected_pawn_change_type = type;
         ChangePieceType(row, col, chess.map[row, col].team, type);
         chess.ChangePieceType(row, col, type);
-        chess.MovePawnToBottom(row, col, Position_row, Position_col);
+        chess.MovePawnToBottom(row, col, pawn_nrow, pawn_ncol);
         Clean_ValidPath_HintBlocks();
     }
     public int temp;
