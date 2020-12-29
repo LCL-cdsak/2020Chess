@@ -512,10 +512,16 @@ namespace Assets.Script
                         {
                             is_check = true;
                             check_path = thread_path;
+                            return null;
                         }
                         else
+                        {
                             protect_piece.protect_path = thread_path;
+                            return protect_piece;
+                        }
+                        
                     }
+                    
 
                     thread_path = Thread_Cross_Diagonal_path(true, row, col, now_map, out temp_is_check, out protect_piece);
                     if (thread_path != null)
@@ -524,9 +530,13 @@ namespace Assets.Script
                         {
                             is_check = true;
                             check_path = thread_path;
+                            return null;
                         }
                         else
+                        {
                             protect_piece.protect_path = thread_path;
+                            return protect_piece;
+                        }
                     }
                     break;
                 case PieceType.Bishop:
