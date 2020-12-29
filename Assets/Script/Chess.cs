@@ -35,7 +35,7 @@ namespace Assets.Script
         public Dictionary<string, bool[,]> all_team_path = new Dictionary<string, bool[,]>();
         public bool is_check, king_cant_move, must_move_king, is_gameover = false;
         public bool is_draw = false;
-        public string win_team;
+        public string win_team = null;
         public bool[,] check_path = null; // store the king check path.
         public List<Piece> protect_pieces = new List<Piece>();
 
@@ -829,8 +829,10 @@ namespace Assets.Script
             {
                 for(int k=0; k<8; ++k)
                 {
+                    if(map[i, k]!=null)
                     if(map[i, k].team == team)
                     {
+                        if(map[i, k].valid_path!=null)
                         if(IsAnyTrueInMap(map[i, k].valid_path))
                         {
                             return true;

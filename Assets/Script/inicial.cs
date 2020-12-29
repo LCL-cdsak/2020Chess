@@ -86,6 +86,12 @@ public class inicial : MonoBehaviour {
     private bool is_deselect = true;
     public bool is_mouse_dragging = false;
     void Update() {
+        if(chess!=null)
+        if (chess.is_gameover)
+        {
+            Debug.Log("Gameover");
+            return;
+        }
         if (is_selecting_piece_type)
         {
             return;
@@ -385,6 +391,19 @@ public class inicial : MonoBehaviour {
         chess.ChangePieceType(row, col, type);
         chess.MovePawnToBottom(row, col, pawn_nrow, pawn_ncol);
         Clean_ValidPath_HintBlocks();
+    }
+    public void ShowGameOverResult()
+    {
+        if (chess.is_draw)
+        {
+            Debug.Log("DRAW");
+        }
+        else
+        {
+            Debug.Log(chess.win_team + " Win");
+        }
+
+
     }
     public int temp;
     public int GetPictureBoxIndexFromLocation(int row, int col)
