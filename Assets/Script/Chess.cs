@@ -34,6 +34,8 @@ namespace Assets.Script
         public Dictionary<string, bool[]> team_castling = new Dictionary<string, bool[]>();
         public Dictionary<string, bool[,]> all_team_path = new Dictionary<string, bool[,]>();
         public bool is_check, king_cant_move, must_move_king, is_gameover = false;
+        public bool is_draw = false;
+        public string win_team;
         public bool[,] check_path = null; // store the king check path.
         public List<Piece> protect_pieces = new List<Piece>();
 
@@ -77,6 +79,8 @@ namespace Assets.Script
         public void InitChessGame()
         {
             is_gameover = false;
+            win_team = null;
+            is_draw = false;
             current_team = "white";
             is_selected_piece = false;
 
@@ -332,6 +336,8 @@ namespace Assets.Script
                     {
                         // game over
                         is_gameover = true;
+                        is_draw = false;
+                        win_team = enemy_team;
                        // MessageBox.Show("Game over");
                     }
                     else
@@ -341,6 +347,11 @@ namespace Assets.Script
                         //MessageBox.Show("Must move king");
                     }
                 }
+            }else if(!IsAnyPieceCanMove(current_team)){
+                // player have no piece to move, it's draw
+                is_gameover = true;
+                is_draw = true;
+                win_team = null;
             }
             return;
         }
@@ -797,6 +808,37 @@ namespace Assets.Script
         public void ChangePieceType(int row, int col, Piece.PieceType type)
         {
             map[row, col].piece_type = type;
+        }
+        public bool IsAnyTrueInMap(bool[,] map)
+        {
+            for(int i=0; i<8; ++i)
+            {
+                for(int k=0; k<8; ++k)
+                {
+                    if(map[i, k])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public bool IsAnyPieceCanMove(string team)
+        {
+            for(int i=0; i<8; ++i)
+            {
+                for(int k=0; k<8; ++k)
+                {
+                    if(map[i, k].team == team)
+                    {
+                        if(IsAnyTrueInMap(map[i, k].valid_path))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
     }
 }

@@ -1429,25 +1429,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1dbaf1cd87bb144d9a33649c174d9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   debug: {fileID: 0}
   temp_piece: {fileID: 0}
-  Piece:
-  - {fileID: 1699833066}
-  - {fileID: 1689699475}
-  - {fileID: 1132806110}
-  - {fileID: 1414898086}
-  - {fileID: 2003625530}
-  - {fileID: 374623617}
+  Pieces:
   - {fileID: 1383808330}
+  - {fileID: 1689699475}
+  - {fileID: 1047044155}
+  - {fileID: 1515030209}
+  - {fileID: 1699833066}
   - {fileID: 368214681}
-  - {fileID: 891391064}
-  - {fileID: 1884137165}
-  - {fileID: 1391461056}
-  - {fileID: 667626014}
-  - {fileID: 1837438337}
-  - {fileID: 118796658}
-  - {fileID: 865651397}
-  - {fileID: 1844772377}
   - {fileID: 556747197}
   - {fileID: 2028176463}
   - {fileID: 1220601344}
@@ -1456,16 +1447,70 @@ MonoBehaviour:
   - {fileID: 76972207}
   - {fileID: 426780290}
   - {fileID: 1271192376}
-  - {fileID: 1047044155}
-  - {fileID: 1323531489}
+  - {fileID: 891391064}
+  - {fileID: 1884137165}
+  - {fileID: 1391461056}
+  - {fileID: 667626014}
+  - {fileID: 1837438337}
+  - {fileID: 118796658}
+  - {fileID: 865651397}
+  - {fileID: 1844772377}
+  - {fileID: 1132806110}
+  - {fileID: 374623617}
   - {fileID: 875385849}
-  - {fileID: 1569990593}
-  - {fileID: 1268002738}
   - {fileID: 1580076593}
+  - {fileID: 1323531489}
   - {fileID: 935502638}
-  - {fileID: 1515030209}
+  - {fileID: 1268002738}
+  - {fileID: 2003625530}
+  - {fileID: 1414898086}
+  - {fileID: 1569990593}
+  PieceTypePrefabs:
+  - {fileID: 1610707297503976, guid: 59f92feae09045444827f5176dbf01f8, type: 2}
+  - {fileID: 1163186308302888, guid: 570d6312267ae0941b6d7afbccc3bdc0, type: 2}
+  - {fileID: 1047632378134072, guid: 711ea2c77c9e145489df0f0e98a6c4b9, type: 2}
+  - {fileID: 1906752847341474, guid: ac40fe8e7c21600418783f9bbe4ae670, type: 2}
+  - {fileID: 1306139290731716, guid: 7f99e815cc331ab4692a41d8a373cca4, type: 2}
+  - {fileID: 1679160444098192, guid: 4bf5a58912a8d604a961ecf09fd181d4, type: 2}
+  - {fileID: 1052807338809646, guid: 05b464d3d615e5b47bc97200a4a5afce, type: 2}
+  - {fileID: 1182374770301154, guid: 5b8a1d7ec75992742b10ecc9a12d85e6, type: 2}
   HintBlockTransform: {fileID: 4461324181512934, guid: 19670b4d617a1da4293f3adfd9dfc3e4,
     type: 2}
+  InitPieceLocations:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  SelectPieceTypeUI: {fileID: 0}
+  is_selecting_piece_type: 0
   is_mouse_dragging: 1
   temp: 0
 --- !u!64 &266211031
@@ -5121,7 +5166,7 @@ GameObject:
   - component: {fileID: 838387625}
   - component: {fileID: 838387624}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: SelectPieceTypeUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8998,6 +9043,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 81
   btn: {fileID: 0}
+  board: {fileID: 0}
+  inic: {fileID: 0}
 --- !u!114 &1364508925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9217,6 +9264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 72
   btn: {fileID: 0}
+  board: {fileID: 0}
+  inic: {fileID: 0}
 --- !u!114 &1383463599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9858,6 +9907,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 66
   btn: {fileID: 0}
+  board: {fileID: 0}
+  inic: {fileID: 0}
 --- !u!114 &1430205255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12200,6 +12251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 82
   btn: {fileID: 0}
+  board: {fileID: 0}
+  inic: {fileID: 0}
 --- !u!114 &1850443551
 MonoBehaviour:
   m_ObjectHideFlags: 0
