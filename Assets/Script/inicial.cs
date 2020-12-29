@@ -19,7 +19,7 @@ public class inicial : MonoBehaviour {
     ChessAlgorithm algorithm;
     int[] best_path = new int[4];//[0] is fromx,[1] is fromy,[2] is tox,[3] is toy
 
-    public GameObject SelectPieceTypeUI;
+    public GameObject SelectPieceTypeUI, GameOverUI;
     public bool is_selecting_piece_type = false; // this is the flag for waiting user to select the new pawn type.
     public int pawn_nrow, pawn_ncol;
     void Start()
@@ -28,6 +28,7 @@ public class inicial : MonoBehaviour {
         chess = new Chess();
         chess.MovePieceEvent += MovePieceGameObject;
         chess.RemovePieceEvent += RemovePieceGameObject;
+        chess.GameOverEvent += ShowGameOverResult;
         
         //debug.transform.localPosition = new Vector3(5f, 0, 0);
         //  Piece = GameObject.FindGameObjectsWithTag("piece");
@@ -70,13 +71,14 @@ public class inicial : MonoBehaviour {
         SelectPieceTypeUI.SetActive(false);
     }
 
-    void ResetGame()
+    public void ResetGame()
     {
         is_selecting_piece_type = false;
         for(int i=0; i<32; ++i)
         {
             Pieces[i].transform.localPosition = InitPieceLocations[i];
         }
+        chess.InitChessGame();
         CloseSelectPieceUI();
     }
     // Update is called once per frame
@@ -89,7 +91,8 @@ public class inicial : MonoBehaviour {
         if(chess!=null)
         if (chess.is_gameover)
         {
-            Debug.Log("Gameover");
+            //Debug.Log("Gameover");
+            
             return;
         }
         if (is_selecting_piece_type)
@@ -392,15 +395,24 @@ public class inicial : MonoBehaviour {
         chess.MovePawnToBottom(row, col, pawn_nrow, pawn_ncol);
         Clean_ValidPath_HintBlocks();
     }
-    public void ShowGameOverResult()
+    public void ShowGameOverResult(bool is_draw, string win_team)
     {
-        if (chess.is_draw)
+        if (is_draw)
         {
             Debug.Log("DRAW");
+            if (GameOverUI != null)
+            {
+                GameOverUI.SetActive(true);
+                Transform rt = GameOverUI.transform.FindChild("ResultText");
+                rt.GetComponent<UnityEngine.UI.Text>().text = "Draw";
+            }
         }
         else
         {
-            Debug.Log(chess.win_team + " Win");
+            Debug.Log(win_team + " Win");
+            GameOverUI.SetActive(true);
+            Transform rt = GameOverUI.transform.FindChild("ResultText");
+            rt.GetComponent<UnityEngine.UI.Text>().text = win_team + " Win";
         }
 
 
