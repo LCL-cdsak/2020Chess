@@ -1509,8 +1509,10 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  SelectPieceTypeUI: {fileID: 0}
+  SelectPieceTypeUI: {fileID: 838387622}
   is_selecting_piece_type: 0
+  pawn_nrow: 0
+  pawn_ncol: 0
   is_mouse_dragging: 1
   temp: 0
 --- !u!64 &266211031
